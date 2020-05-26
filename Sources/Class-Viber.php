@@ -8,7 +8,7 @@ class Viber
     public static function hooks()
     {
         add_integration_function('integrate_load_theme', __CLASS__ . '::loadTheme', false, __FILE__);
-        //add_integration_function('integrate_menu_buttons', __CLASS__ . '::menuButtons', false, __FILE__);
+        add_integration_function('integrate_actions', __CLASS__ . '::actions', false, __FILE__);
         add_integration_function('integrate_display_topic', __CLASS__ . '::displayTopic', false, __FILE__);
         add_integration_function('integrate_prepare_display_context', __CLASS__ . '::prepareDisplayContext', false, __FILE__);
         add_integration_function('integrate_admin_areas', __CLASS__ . '::adminAreas', false, __FILE__);
@@ -91,6 +91,12 @@ class Viber
 
         prepareDBSettingContext($config_vars);
     }
+
+    public static function actions(&$actions)
+    {
+        $actions['viber'] = array('Viber.php', '');
+    }
+
 }
 
     function viber_send_message($data) {
@@ -99,6 +105,7 @@ class Viber
 
     function viber_request($url, $data = array())
     {
+        global $context, $txt, $scripturl, $modSettings;
         $auth_token = $modSettings['viber_api'];
         if (!isset($data['auth_token'])) {
             $data['auth_token'] = $auth_token;
@@ -119,8 +126,8 @@ class Viber
         $result = curl_exec($ch);
         $result .= ' : ' . date("Y-m-d H:i:s");
 
-        //$fp = fopen('/home/www/satsis.info/viber.txt', 'a+');
-    //	fwrite($fp, json_encode($data) ."\r\n");
+        $fp = fopen('/home/www/sat-integral/viber.txt', 'a+');
+    	fwrite($fp, json_encode($data) ."\r\n");
         fwrite($fp, $result ."\r\n");
         fclose($fp);
 

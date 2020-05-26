@@ -8,16 +8,13 @@ if (!defined('SMF'))
 	loadTemplate('Viber');
 
 	$context['sub_template'] = 'manual';
-	
-//		if (!isset($_GET['help']) || !is_string($_GET['help']))
-//		fatal_lang_error('no_access', false);
 
     $viber_id = isset($_GET['viber_id']) ? trim($_GET['viber_id']) : false;
     $viber_id = str_replace(" ", "+", $viber_id);
     $d = strlen($viber_id);
     $user = $user_settings['real_name'];
     $user_id = $user_info['id'];
-    $member_ip = get_client_ip($ipaddress);
+    $member_ip = get_client_ip();
     $group_id = $user_settings['id_group'];
 
     if (preg_match("/==\z/i", $viber_id) and strlen($viber_id) == '24' and $user_id != '') {
