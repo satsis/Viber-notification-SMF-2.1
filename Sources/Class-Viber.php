@@ -9,12 +9,13 @@ class Viber
     {
         add_integration_function('integrate_load_theme', __CLASS__ . '::loadTheme', false, __FILE__);
         add_integration_function('integrate_actions', __CLASS__ . '::actions', false, __FILE__);
-        add_integration_function('integrate_display_topic', __CLASS__ . '::displayTopic', false, __FILE__);
-        add_integration_function('integrate_prepare_display_context', __CLASS__ . '::prepareDisplayContext', false, __FILE__);
+        //add_integration_function('integrate_display_topic', __CLASS__ . '::displayTopic', false, __FILE__);
+        //add_integration_function('integrate_prepare_display_context', __CLASS__ . '::prepareDisplayContext', false, __FILE__);
         add_integration_function('integrate_admin_areas', __CLASS__ . '::adminAreas', false, __FILE__);
         add_integration_function('integrate_admin_search', __CLASS__ . '::adminSearch', false, __FILE__);
         add_integration_function('integrate_modify_modifications', __CLASS__ . '::modifyModifications', false, __FILE__);
         add_integration_function('integrate_menu_buttons', __CLASS__ . '::menuButtons', false, __FILE__);
+        add_integration_function('integrate_member_context', __CLASS__ . '::printViberForMember', false, __FILE__);
     }
 
     public static function loadTheme()
@@ -141,6 +142,68 @@ class Viber
             )),
             array_slice($buttons, $counter, NULL, TRUE)
         );
+    }
+
+    /**
+     * Иконка viber в профиле пользователя
+     */
+    public static function printViberForMember(&$memberContext, $user, $display_custom_fields)
+    {
+        global $memberContext, $context, $user_profile, $txt, $settings, $modSettings;
+
+        if (empty($modSettings['viber_enable']))
+            return;
+
+        if (!empty($user_profile)) {
+                $viber_ico = self::getViberByMemberID($user);
+                if (!empty($viber_ico)) {
+                    $viber_ico = '<a href="'. $modSettings['viber_url'] .'"><img src="' . $settings['images_url'] . '/viber.png" width="16" height="16" alt="'. $txt['viber_settings'] .'" title="'. $txt['viber_settings'] .'"></a>';
+                    $memberContext[$user]['post_group'] .= (!empty($memberContext[$user]['post_group']) ? '<br>' : '') . $viber_ico;
+                    unset($viber_ico);
+                }
+            }
+        //}
+    }
+
+    /**
+     * Получение иконки для member id
+     * @param int $member_id
+     * @return array|bool
+     */
+    public static function getViberByMemberID($member_id = 0)
+    {
+        global $smcFunc;
+
+        if (!$member_id) {
+            return false;
+        }
+
+        // Check cache
+        $Viber = cache_get_data('Viber_' . $member_id);
+
+        if (empty($Viber)) {
+
+            $request = $smcFunc['db_query']('', '
+			SELECT viber_id
+			FROM {db_prefix}members
+			WHERE id_member = {int:member_id}
+			LIMIT 1', array(
+                    'member_id' => $member_id,
+                )
+            );
+
+            $Viber = array();
+            list ($Viber['viber_id']) = $smcFunc['db_fetch_row']($request);
+            $smcFunc['db_free_result']($request);
+
+            cache_put_data('Viber_' . $member_id, $Viber);
+        }
+
+        if (!empty($Viber['viber_id'])) {
+            return ($Viber['viber_id']);
+        } else {
+            return false;
+        }
     }
 
 }
