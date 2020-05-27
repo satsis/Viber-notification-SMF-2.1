@@ -72,8 +72,13 @@ class Viber
         $context['post_url'] = $scripturl . '?action=admin;area=modsettings;save;sa=viber';
         $context[$context['admin_menu_name']]['tab_data']['tabs']['viber'] = array('description' => $txt['viber_desc']);
 
+        if (!isset($modSettings['viber_button_after']))
+            updateSettings(array('viber_button_after' => $txt['viber_button_after_deaf']));
+
         $config_vars[] = array('check', 'viber_enable', 'subtext' => $txt['viber_enable_desc']);
         $config_vars[] = array('text', 'viber_url', 'subtext' => $txt['viber_url_desc']);
+        $config_vars[] = array('text', 'viber_button_after', 'subtext' => $txt['viber_button_after_desc']);
+
         $config_vars[] = array('title', 'viber_api_title');
         $config_vars[] = array('desc', 'viber_api_desc');
         $config_vars[] = array('text', 'viber_api', '" style="width:360px');
@@ -94,11 +99,19 @@ class Viber
         prepareDBSettingContext($config_vars);
     }
 
+    /**
+     * Функция перехода по ссылке из бота для подтверждения регистрации
+     *
+     */
     public static function actions(&$actions)
     {
         $actions['viber'] = array('Viber.php', '');
     }
 
+    /**
+     * Функция создания кнопки на бота в меню с выбором расположения
+     *
+     */
     public static function menuButtons(&$buttons)
     {
         global $txt, $modSettings;
@@ -113,7 +126,7 @@ class Viber
         foreach ($buttons as $name => $array)
         {
             $counter++;
-            if ($name == 'search')
+            if ($name == $modSettings['viber_button_after'])
                 break;
         }
 
