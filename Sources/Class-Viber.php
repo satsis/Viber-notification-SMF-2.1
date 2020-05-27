@@ -14,6 +14,7 @@ class Viber
         add_integration_function('integrate_admin_areas', __CLASS__ . '::adminAreas', false, __FILE__);
         add_integration_function('integrate_admin_search', __CLASS__ . '::adminSearch', false, __FILE__);
         add_integration_function('integrate_modify_modifications', __CLASS__ . '::modifyModifications', false, __FILE__);
+        add_integration_function('integrate_menu_buttons', __CLASS__ . '::menuButtons', false, __FILE__);
     }
 
     public static function loadTheme()
@@ -71,7 +72,8 @@ class Viber
         $context['post_url'] = $scripturl . '?action=admin;area=modsettings;save;sa=viber';
         $context[$context['admin_menu_name']]['tab_data']['tabs']['viber'] = array('description' => $txt['viber_desc']);
 
-        $config_vars[] = array('select', 'viber_enable', $txt['viber_where_is']);
+        $config_vars[] = array('check', 'viber_enable', 'subtext' => $txt['viber_enable_desc']);
+        $config_vars[] = array('text', 'viber_url', 'subtext' => $txt['viber_url_desc']);
         $config_vars[] = array('title', 'viber_api_title');
         $config_vars[] = array('desc', 'viber_api_desc');
         $config_vars[] = array('text', 'viber_api', '" style="width:360px');
@@ -95,6 +97,37 @@ class Viber
     public static function actions(&$actions)
     {
         $actions['viber'] = array('Viber.php', '');
+    }
+
+    public static function menuButtons(&$buttons)
+    {
+        global $txt, $modSettings;
+
+        if (empty($modSettings['viber_enable']))
+            return;
+
+        if (!isset($txt['viber_menu']))
+            $txt['viber_menu'] = 'Viber';
+
+        $counter = 0;
+        foreach ($buttons as $name => $array)
+        {
+            $counter++;
+            if ($name == 'search')
+                break;
+        }
+
+        $buttons = array_merge(
+            array_slice($buttons, 0, $counter, TRUE),
+            array('viberbutton' => array(
+                'title' => $txt['viber_menu'], // переменная с названием кнопки
+                'href' => $modSettings['viber_url'], // наша ссылка на бота из админки
+                'show' => true, // если не хотим показывать кнопку, пишем false
+                'sub_buttons' => array(), // вложенные пункты, по умолчанию отсутствуют
+                'icon' => 'viber.png', // наша иконка
+            )),
+            array_slice($buttons, $counter, NULL, TRUE)
+        );
     }
 
 }
