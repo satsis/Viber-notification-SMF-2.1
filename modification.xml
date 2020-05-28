@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<!DOCTYPE modification SYSTEM "http://www.simplemachines.org/xml/modification">
+<modification xmlns="http://www.simplemachines.org/xml/modification">
+    <id>maxya:Viber notification</id>
+    <name>Viber notification</name>
+
+    <file name="$sourcedir/Load.php">
+        <operation>
+            <search position="before"><![CDATA[
+		'passwd' => isset($user_settings['passwd']) ? $user_settings['passwd'] : '',]]></search>
+            <add><![CDATA[
+        'viber_id' => isset($user_settings['viber_id']) ? $user_settings['viber_id'] : '',
+        'viber_on' => isset($user_settings['viber_on']) ? $user_settings['viber_on'] : '',]]></add>
+        </operation>
+    </file>
+
+    <file name="$sourcedir/Mentions.php">
+        <operation>
+            <search position="replace"><![CDATA[mem.id_member, mem.real_name, mem.email_address, mem.id_group,]]></search>
+            <add><![CDATA[mem.viber_id, mem.viber_on, mem.id_member, mem.real_name, mem.email_address, mem.id_group,]]></add>
+        </operation>
+        <operation>
+            <search position="before"><![CDATA[
+				'email_address' => $row['email_address'],]]></search>
+            <add><![CDATA[
+                'viber_id' => $row['viber_id'],
+                'viber_on' => $row['viber_on'],]]></add>
+        </operation>
+    </file>
+
+    <file name="$sourcedir/tasks/CreatePost-Notify.php">
+        <operation>
+            <search position="before"><![CDATA[
+				sendmail($member['email_address'], $emaildata['subject'], $emaildata['body'], null, 'msg_mention_' . $msgOptions['id'], $emaildata['is_html'], 2);]]></search>
+            <add><![CDATA[
+                if ($member['viber_on'] == 1 and (isset($member['viber_id']))) {
+                    $viber_mess = $emaildata['subject'] . "\n\n" . $emaildata['body'];
+                    $data = [
+                        'receiver' => $member['viber_id'],
+                        'type' => 'text',
+                        'text' => $viber_mess
+                    ];
+                    $response = viber_send_message($data);
+                }]]></add>
+        </operation>
+    </file>
+</modification>

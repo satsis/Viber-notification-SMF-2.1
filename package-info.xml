@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <!DOCTYPE package-info SYSTEM "http://www.simplemachines.org/xml/package-info">
 <package-info xmlns="http://www.simplemachines.org/xml/package-info" xmlns:smf="http://www.simplemachines.org/">
-	<id>maxya:Viber inform</id>
-	<name>Viber inform</name>
+	<id>maxya:Viber notification</id>
+	<name>Viber notification</name>
 	<version>0.0.1</version>
 	<type>modification</type>
 
@@ -13,6 +13,7 @@
 		<require-dir name="Themes" destination="$boarddir">Template &amp; Language files</require-dir>
 		<require-dir name="Sources" destination="$boarddir" />
 <!--		<code>install.php</code>-->
+		<modification>modification.xml</modification>
 		<redirect url="?action=admin;area=modsettings;sa=general" timeout="1000" />
 	</install>
 
@@ -23,6 +24,7 @@
 		<remove-dir name="$languagedir/Viber" />
 		<remove-file name="$themedir/Viber.template.php" />
 		<code>uninstall.php</code>
+		<modification reverse="true">modification.xml</modification>
 		<redirect url="?action=admin;area=packages;sa=browse" timeout="1000" />
 	</uninstall>
 

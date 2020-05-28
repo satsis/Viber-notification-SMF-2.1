@@ -16,6 +16,7 @@ class Viber
         add_integration_function('integrate_modify_modifications', __CLASS__ . '::modifyModifications', false, __FILE__);
         add_integration_function('integrate_menu_buttons', __CLASS__ . '::menuButtons', false, __FILE__);
         add_integration_function('integrate_member_context', __CLASS__ . '::printViberForMember', false, __FILE__);
+        add_integration_function('integrate_menu_buttons', __CLASS__ . '::addCopyright', false, __FILE__);
     }
 
     public static function loadTheme()
@@ -203,6 +204,15 @@ class Viber
             return ($Viber['viber_id']);
         } else {
             return false;
+        }
+    }
+
+    public static function addCopyright()
+    {
+        global $context;
+
+        if ($context['current_action'] == 'credits') {
+            $context['copyrights']['mods'][] = '<a href="https://hd.zp.ua" target="_blank">Viber notification</a> &copy; 2020, maxya';
         }
     }
 
