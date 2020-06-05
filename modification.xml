@@ -52,19 +52,18 @@
         </operation>
         <operation>
             <search position="before"><![CDATA[
-				$notifications = array();]]></search>
+	$notifications = array();]]></search>
             <add><![CDATA[
-                $notifications_viber = array();]]></add>
+    $notifications_viber = array();]]></add>
         </operation>
         <operation>
             <search position="before"><![CDATA[
-				$notifications[empty($row['lngfile']) || empty($modSettings['userLanguage']) ? $language : $row['lngfile']][] = $row['email_address'];]]></search>
+			$notifications[empty($row['lngfile']) || empty($modSettings['userLanguage']) ? $language : $row['lngfile']][] = $row['email_address'];]]></search>
             <add><![CDATA[
-                $notifications_viber[empty($row['lngfile']) || empty($modSettings['userLanguage']) ? $language : $row['lngfile']][] = $row['viber_id'];]]></add>
+			$notifications_viber[empty($row['lngfile']) || empty($modSettings['userLanguage']) ? $language : $row['lngfile']][] = $row['viber_id'];]]></add>
         </operation>
         <operation>
-            <search position="before"><![CDATA[
-						sendmail($notification_list, $emaildata['subject'], $emaildata['body'], null, 'p' . $id_pm, $emaildata['is_html'], 2, null, true);
+            <search position="before"><![CDATA[		sendmail($notification_list, $emaildata['subject'], $emaildata['body'], null, 'p' . $id_pm, $emaildata['is_html'], 2, null, true);
 	}]]></search>
             <add><![CDATA[
 
