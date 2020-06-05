@@ -246,14 +246,12 @@ class Viber
 
     function viber_request($url, $data = array())
     {
-        //require("../SSI.php");
         global $context, $txt, $scripturl, $modSettings;
 
         if (!isset($data['auth_token'])) {
             $auth_token = $modSettings['viber_api'];
             $data['auth_token'] = $auth_token;
         }
-        //$data['auth_token'] = '4881cb0c3a27d34c-ce7661980203fda4-b632d1644b2f0d71';
 
         $headers = array(
             'Content-Type:application/json'
@@ -270,10 +268,10 @@ class Viber
         $result = curl_exec($ch);
         $result .= ' : ' . date("Y-m-d H:i:s");
 
-        $fp = fopen('/home/www/sat-integral/viber.txt', 'a+');
-    	fwrite($fp, json_encode($data) ."\r\n");
-        fwrite($fp, $result ."\r\n");
-        fclose($fp);
+//        $fp = fopen('/home/www/sat-integral/viber.txt', 'a+');
+//        fwrite($fp, json_encode($data) ."\r\n");
+//        fwrite($fp, $result ."\r\n");
+//        fclose($fp);
 
         if ($result !== false) {
             $result = json_decode($result);

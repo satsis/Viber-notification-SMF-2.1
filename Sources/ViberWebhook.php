@@ -35,7 +35,7 @@
     );
 
     ## Письмо в личку по заходу
-        if ($content->event == 'conversation_started') {
+    if ($content->event == 'conversation_started') {
             $data = array(
             'sender' => array(
             'name' => $context['forum_name'],
@@ -52,6 +52,31 @@
 
     if (isset($content->message) && isset($content->message->text)) {
         include_once 'Class-Viber.php';
+        if ($content->message->text == $txt['viber_keyb_news']) {
+            $rss = $boardurl . '/index.php?action=.xml;type=rss';
+            $xml = @simplexml_load_file($rss);
+            if ( $xml===false ) die('Error parse RSS: '.$rss);
+            $rssinf = '';
+            $i = 1;
+            foreach ( $xml->xpath('//item') as $item ) {
+                if ($i >= 10) break;
+                $rssinf .= $item->title ."\r\n";
+                $rssinf .= $item->link ."\r\n";
+                $rssinf .= "\r\n";
+                $i++;
+            }
+            $sendertext = $content->sender->id;
+            $data = array(
+                'receiver' => $sendertext,
+                'type' => 'text',
+                'text' => $rssinf,
+                'keyboard' => $keyboard,
+            );
+            $response = viber_send_message($data);
+            var_dump($response);
+            exit;
+        }
+
         if ($content->message->text != '') {
             $sendertext = $content->sender->id;
             $data = array(
@@ -63,6 +88,6 @@
         $response = viber_send_message($data);
         var_dump($response);
         exit;
+        }
     }
-}
     ?>
