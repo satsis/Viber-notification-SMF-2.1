@@ -9,6 +9,8 @@ class Viber
     {
         add_integration_function('integrate_load_theme', __CLASS__ . '::loadTheme', false, __FILE__);
         add_integration_function('integrate_actions', __CLASS__ . '::actions', false, __FILE__);
+		add_integration_function('integrate_actions', __CLASS__ . '::actions_webhook', false, __FILE__);
+        add_integration_function('integrate_actions', __CLASS__ . '::actions_set_webhook', false, __FILE__);
         //add_integration_function('integrate_display_topic', __CLASS__ . '::displayTopic', false, __FILE__);
         //add_integration_function('integrate_prepare_display_context', __CLASS__ . '::prepareDisplayContext', false, __FILE__);
         add_integration_function('integrate_admin_areas', __CLASS__ . '::adminAreas', false, __FILE__);
@@ -108,6 +110,24 @@ class Viber
     public static function actions(&$actions)
     {
         $actions['viber'] = array('Viber.php', '');
+    }
+
+    /**
+     * Функция Viber Webhook
+     *
+     */
+    public static function actions_webhook(&$actions)
+    {
+        $actions['ViberWebhook'] = array('ViberWebhook.php', '');
+    }
+
+    /**
+     * Функция установки Viber Webhook
+     *
+     */
+    public static function actions_set_webhook(&$actions)
+    {
+        $actions['ViberSetWebhook'] = array('ViberSetWebhook.php', '');
     }
 
     /**

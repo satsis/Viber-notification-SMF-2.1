@@ -8,8 +8,8 @@
 
 	<install for="2.1.*">
 		<readme parsebbc="true">readme.txt</readme>
-		<readme parsebbc="true" lang="russian">readme/russian.txt</readme>
-		<readme parsebbc="true" lang="english">readme/english.txt</readme>
+		<readme parsebbc="true" lang="russian">readme.txt</readme>
+		<readme parsebbc="true" lang="english">readme.txt</readme>
 		<hook hook="integrate_pre_load" function="Viber::hooks" file="$sourcedir/Class-Viber.php" />
 		<require-dir name="Themes" destination="$boarddir">Template &amp; Language files</require-dir>
 		<require-dir name="Sources" destination="$boarddir" />
@@ -22,6 +22,7 @@
 		<hook hook="integrate_pre_load" function="Viber::hooks" file="$sourcedir/Class-Viber.php" reverse="true" />
 		<remove-file name="$sourcedir/Class-Viber.php" />
 		<remove-file name="$sourcedir/Viber.php" />
+		<remove-file name="$sourcedir/ViberWebhook.php" />
 		<remove-dir name="$languagedir/Viber" />
 		<remove-file name="$themedir/Viber.template.php" />
 		<code>uninstall.php</code>
