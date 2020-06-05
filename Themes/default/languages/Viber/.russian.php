@@ -13,3 +13,7 @@ $txt['viber_api_title']          = 'Настройка API key для viber бо
 $txt['viber_api']                = 'Текущий ключ <div class="smalltext">Без пробелов.</div>';
 $txt['viber_api_set']            = '451e54f24e1002ee-170c2356302871eb-68a6fe79d548fb9c';
 $txt['viber_api_desc']           = 'Необходимо добавить API key viber: ' . $txt['viber_api_set'];
+$txt['viber_keyb_news']          = 'Новости';
+$txt['viber_keyb_subs']          = 'Подписка';
+$txt['viber_1st_mess']           = 'Текст 1го сообщения в Viber';
+$txt['viber_mess_subs']          = 'Текст при нажатии на подписку в Viber, выводится перед ссылкой';

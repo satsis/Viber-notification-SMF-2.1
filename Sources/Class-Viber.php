@@ -82,6 +82,8 @@ class Viber
         $config_vars[] = array('check', 'viber_enable', 'subtext' => $txt['viber_enable_desc']);
         $config_vars[] = array('text', 'viber_url', 'subtext' => $txt['viber_url_desc']);
         $config_vars[] = array('text', 'viber_button_after', 'subtext' => $txt['viber_button_after_desc']);
+        $config_vars[] = array('large_text', 'viber_1st_mess', '" style="width:80%');
+        $config_vars[] = array('large_text', 'viber_mess_subs', '" style="width:80%');
 
         $config_vars[] = array('title', 'viber_api_title');
         $config_vars[] = array('desc', 'viber_api_desc');
@@ -118,7 +120,7 @@ class Viber
      */
     public static function actions_webhook(&$actions)
     {
-        $actions['ViberWebhook'] = array('ViberWebhook.php', '');
+        $actions['ViberWebhook'] = array('ViberWebhook.php', 'sig');
     }
 
     /**
@@ -244,11 +246,14 @@ class Viber
 
     function viber_request($url, $data = array())
     {
+        //require("../SSI.php");
         global $context, $txt, $scripturl, $modSettings;
-        $auth_token = $modSettings['viber_api'];
+
         if (!isset($data['auth_token'])) {
+            $auth_token = $modSettings['viber_api'];
             $data['auth_token'] = $auth_token;
         }
+        //$data['auth_token'] = '4881cb0c3a27d34c-ce7661980203fda4-b632d1644b2f0d71';
 
         $headers = array(
             'Content-Type:application/json'

@@ -17,8 +17,8 @@
                 'Columns' => "3",
                 'Rows' => "1",
                 'ActionType' => "reply",
-                'ActionBody' => "Новости",
-                'Text' => "Новости",
+                'ActionBody' => $txt['viber_keyb_news'],
+                'Text' => $txt['viber_keyb_news'],
                 'TextVAlign' => "bottom",
                 'TextHAlign' => "center",
             ),
@@ -26,8 +26,8 @@
                 'Columns' => "3",
                 'Rows' => "1",
                 'ActionType' => "reply",
-                'ActionBody' => "Подписка",
-                'Text' => "Подписка",
+                'ActionBody' => $txt['viber_keyb_subs'],
+                'Text' => $txt['viber_keyb_subs'],
                 'TextVAlign' => "bottom",
                 'TextHAlign' => "center",
             ),
@@ -42,7 +42,7 @@
             'avatar' => $settings['images_url'] . '/viber.png'
             ),
       'type' => 'text',
-      'text' => 'Бобро пожаловать в паблик чат Sat-Integral! Чат пока что в стадии тестирования. Внизу вы должны увидеть клавиатуру с командами чата.',
+      'text' => $modSettings['viber_1st_mess'],
       'keyboard' => $keyboard
       );
      echo json_encode($data);
@@ -57,7 +57,7 @@
             $data = array(
             'receiver' => $sendertext,
             'type' => 'text',
-            'text' => $boardurl . '/index.php?action=viber&viber_id=' . $sendertext,
+            'text' => $modSettings['viber_mess_subs'] . "\n\n" . $boardurl . '/index.php?action=viber&viber_id=' . $sendertext,
             'keyboard' => $keyboard,
             );
         $response = viber_send_message($data);
